@@ -21,13 +21,22 @@ jobs:
         run : |
           brew install cocoapods # If you have CocoaPods dependencies
         
-      - name : Resolve dependencies and build project  
-        run : |
-          xcrun xcodebuild \
-            -project Cork.xcodeproj \
-            clean archive | xcpretty
+      - name : Delete corrupted Package.resolved file  
+        run : rm ./Cork.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
         
-       # Upload built app as artifact for download.
-      - uses: actions/upload-artifact@v2 
-        with :
-          path : .github/Cork.app.zip  
+      - name : Resolve package dependencies  
+        run :
+          xcrun xcodebuild \
+            -resolvePackages | xcpretty
+            
+       # Build project 
+       #-name resolve dependenices and build project   
+         run :
+           xcrun xcoddebuild \-project Cork.xcoddeproj \clean archive | xcpretty   
+
+        
+       ## Upload built app as artifact for download.
+       uses;actions/upload-artifact @ v2 with:path:.github/corkapp.zip
+
+
+This setup will delete corrupted 'package resolved'file, resolve package dependecies,then proceed building uploading app
