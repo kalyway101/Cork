@@ -14,21 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       
-      # Set up Xcode environment if needed 
-      #- name : Set up Xcode 
+      - name: Set up Xcode environment if needed 
         run : sudo xcode-select --switch /Applications/Xcode.app # Adjust if needed
       
-       # Install dependencies (if any)
-       #- name : Install dependencies 
-         run : |
-           brew install cocoapods # If you have CocoaPods dependencies
+      - name : Install dependencies (if any)
+        run : |
+          brew install cocoapods # If you have CocoaPods dependencies
         
-       # Resolve dependencies and build project  
-       #- name : Resolve dependencies and build project  
-         run : |
-           xcrun xcodebuild \
-             -project Cork.xcodeproj \
-             clean archive | xcpretty
+      - name : Resolve dependencies and build project  
+        run : |
+          xcrun xcodebuild \
+            -project Cork.xcodeproj \
+            clean archive | xcpretty
         
-        ## Optionally, upload built app as artifact for download.
-        - uses actions/upload-artifact@v2 with path .github/Cork.app.zip  
+       # Upload built app as artifact for download.
+      - uses: actions/upload-artifact@v2 
+        with :
+          path : .github/Cork.app.zip  
